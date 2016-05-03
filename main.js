@@ -95,8 +95,8 @@
 						enableButtons();
 						lastStroke = result.Name;
 					// zigzag clears game
-					} else if (result.Name == "zigzag") {
-						// DO STUFF
+					} else if (result.Name == "zig-zag") {
+						clearBoard();
 					// arrow checks for win
 					} else if (result.Name == "arrow") {
 						checkWin();
@@ -223,6 +223,16 @@
  	}
  }
 
+// clears board to start a new game
  function clearBoard() {
-
+ 	button1.innerHTML = "";
+ 	button2.innerHTML = "";
+ 	button3.innerHTML = "";
+ 	button4.innerHTML = "";
+ 	button5.innerHTML = "";
+ 	button6.innerHTML = "";
+ 	button7.innerHTML = "";
+ 	button8.innerHTML = "";
+ 	button9.innerHTML = "";
+ 	document.getElementById('instruct').innerHTML = "";
  }
