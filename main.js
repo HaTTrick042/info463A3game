@@ -2,6 +2,7 @@
 		// Startup
 		//
 		var _isDown, _points, _r, _g, _rc;
+		var lastStroke;
 		function onLoadEvent()
 		{
 			_points = new Array();
@@ -18,6 +19,9 @@
 			_g.fillRect(0, 0, _rc.width, 20);
 
 			_isDown = false;
+
+			// get references to each button element
+			getButtons();
 		}
 		function getCanvasRect(canvas)
 		{
@@ -83,9 +87,21 @@
 				_isDown = false;
 				if (_points.length >= 10)
 				{
-					var result = _r.Recognize(_points, document.getElementById('useProtractor').checked);
+					var result = _r.Recognize(_points, false);
 					drawText("Result: " + result.Name + " (" + round(result.Score,2) + ").");
-				}
+
+					// x or o make move
+					if (result.Name == "x" || result.Name == "circle") {
+						enableButtons();
+						lastStroke = result.Name;
+					// zigzag clears game
+					} else if (result.Name == "zigzag") {
+						// DO STUFF
+					// arrow checks for win
+					} else if (result.Name == "arrow") {
+						checkWin();
+					}
+				}	
 				else // fewer than 10 points were inputted
 				{
 					drawText("Too few points made. Please try again.");
@@ -112,41 +128,101 @@
 			d = Math.pow(10, d);
 			return Math.round(n * d) / d
 		}
-		//
-		// Unistroke Adding and Clearing
-		//
-		function onClickAddExisting()
-		{
-			if (_points.length >= 10)
-			{
-				var unistrokes = document.getElementById('unistrokes');
-				var name = unistrokes[unistrokes.selectedIndex].value;
-				var num = _r.AddGesture(name, _points);
-				drawText("\"" + name + "\" added. Number of \"" + name + "\"s defined: " + num + ".");
-			}
-		}
-		function onClickAddCustom()
-		{
-			var name = document.getElementById('custom').value;
-			if (_points.length >= 10 && name.length > 0)
-			{
-				var num = _r.AddGesture(name, _points);
-				drawText("\"" + name + "\" added. Number of \"" + name + "\"s defined: " + num + ".");
-			}
-		}
-		function onClickCustom()
-		{
-			document.getElementById('custom').select();
-		}
-		function onClickDelete()
-		{
-			var num = _r.DeleteUserGestures(); // deletes any user-defined unistrokes
-			alert("All user-defined gestures have been deleted. Only the 1 predefined gesture remains for each of the " + num + " types.");
-		}
+		
 /*
  * JavaScript written by Cassandra Beaulaurier and Patrick Harper-Joles
  *
  */
+// gets references to each button element once
+ function getButtons() {
+ 	button1 = document.getElementById('1');
+ 	button2 = document.getElementById('2');
+ 	button3 = document.getElementById('3');
+ 	button4 = document.getElementById('4');
+ 	button5 = document.getElementById('5');
+ 	button6 = document.getElementById('6');
+ 	button7 = document.getElementById('7');
+ 	button8 = document.getElementById('8');
+ 	button9 = document.getElementById('9');
+ }
+ // places x or o on gameboard
  function makeMove(id) {
+ 	square = document.getElementById(id);
+ 	if (!square.innerHTML) {
+ 		if (lastStroke == "x") {
+ 		square.innerHTML = 'x';
+ 	} else if (lastStroke == "circle") {
+ 		square.innerHTML = "o";
+ 	}
+ 	disableButtons();
+ 	}
+ }
+
+// Allows buttons to be clicked to place an x or o
+ function enableButtons() {
+ 	button1.disabled = false;
+ 	button2.disabled = false;
+ 	button3.disabled = false;
+ 	button4.disabled = false;
+ 	button5.disabled = false;
+ 	button6.disabled = false;
+ 	button7.disabled = false;
+ 	button8.disabled = false;
+ 	button9.disabled = false;
+ }
+
+ // disables buttons so that new gesture must be drawn before new move is placed
+ function disableButtons() {
+ 	button1.disabled = true;
+ 	button2.disabled = true;
+ 	button3.disabled = true;
+ 	button4.disabled = true;
+ 	button5.disabled = true;
+ 	button6.disabled = true;
+ 	button7.disabled = true;
+ 	button8.disabled = true;
+ 	button9.disabled = true;
+ }
+
+ // Checks to see if someone won the game
+ function checkWin() {
+ 	// check for x wins
+ 	if (button1.innerHTML == "x" && button2.innerHTML == "x" && button3.innerHTML == "x") {
+		document.getElementById('instruct').innerHTML = "x wins!";
+ 	} else if (button4.innerHTML == "x" && button5.innerHTML == "x" && button3.innerHTML == "x") {
+ 		document.getElementById('instruct').innerHTML = "x wins!";
+ 	} else if (button7.innerHTML == "x" && button8.innerHTML == "x" && button9.innerHTML == "x") {
+ 		document.getElementById('instruct').innerHTML = "x wins!";
+ 	} else if (button1.innerHTML == "x" && button4.innerHTML == "x" && button7.innerHTML == "x") {
+ 		document.getElementById('instruct').innerHTML = "x wins!";
+ 	} else if (button2.innerHTML == "x" && button5.innerHTML == "x" && button8.innerHTML == "x") {
+ 		document.getElementById('instruct').innerHTML = "x wins!";
+ 	} else if (button3.innerHTML == "x" && button6.innerHTML == "x" && button9.innerHTML == "x") {
+ 		document.getElementById('instruct').innerHTML = "x wins!";
+ 	} else if (button1.innerHTML == "x" && button5.innerHTML == "x" && button9.innerHTML == "x") {
+ 		document.getElementById('instruct').innerHTML = "x wins!";
+ 	} else if (button3.innerHTML == "x" && button5.innerHTML == "x" && button7.innerHTML == "x") {
+ 		document.getElementById('instruct').innerHTML = "x wins!";
+ 	// check for o wins
+ 	} else if (button1.innerHTML == "o" && button2.innerHTML == "o" && button3.innerHTML == "o") {
+		document.getElementById('instruct').innerHTML = "o wins!";
+ 	} else if (button4.innerHTML == "o" && button5.innerHTML == "o" && button3.innerHTML == "o") {
+ 		document.getElementById('instruct').innerHTML = "o wins!";
+ 	} else if (button7.innerHTML == "o" && button8.innerHTML == "o" && button9.innerHTML == "o") {
+ 		document.getElementById('instruct').innerHTML = "o wins!";
+ 	} else if (button1.innerHTML == "o" && button4.innerHTML == "o" && button7.innerHTML == "o") {
+ 		document.getElementById('instruct').innerHTML = "o wins!";
+ 	} else if (button2.innerHTML == "o" && button5.innerHTML == "o" && button8.innerHTML == "o") {
+ 		document.getElementById('instruct').innerHTML = "o wins!";
+ 	} else if (button3.innerHTML == "o" && button6.innerHTML == "o" && button9.innerHTML == "o") {
+ 		document.getElementById('instruct').innerHTML = "o wins!";
+ 	} else if (button1.innerHTML == "o" && button5.innerHTML == "o" && button9.innerHTML == "o") {
+ 		document.getElementById('instruct').innerHTML = "o wins!";
+ 	} else if (button3.innerHTML == "o" && button5.innerHTML == "o" && button7.innerHTML == "o") {
+ 		document.getElementById('instruct').innerHTML = "o wins!";
+ 	}
+ }
+
+ function clearBoard() {
 
  }

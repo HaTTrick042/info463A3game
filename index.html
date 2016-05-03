@@ -1,29 +1,29 @@
 <head>
-	<script type="text/javascript" src="canvas.text.js"></script>
 	<script type="text/javascript" src="dollar.js"></script>
 	<script type="text/javascript" src="main.js"></script>
 	<style>
 		button {width: 80px; height: 80px; font-size: 25px;}
 	</style>
 	<h1>Tic Tac Toe</h1>
+	<h2 id="instruct"></h2>
 </head>
 <body onLoad="onLoadEvent()"> 
 	<table>
 		<tbody>
 			<tr>
-				<td><button id=1 onClick="makeMove(this.id)"></td>
-				<td><button id=2 onClick="makeMove(this.id)"></td>
-				<td><button id=3 onClick="makeMove(this.id)"></td>
+				<td><button id=1 onClick="makeMove(this.id)" disabled=true></td>
+				<td><button id=2 onClick="makeMove(this.id)" disabled=true></td>
+				<td><button id=3 onClick="makeMove(this.id)" disabled=true></td>
 			</tr>
 			<tr>
-				<td><button id=4 onClick="makeMove(this.id)"></td>
-				<td><button id=5 onClick="makeMove(this.id)"></td>
-				<td><button id=6 onClick="makeMove(this.id)"></td>
+				<td><button id=4 onClick="makeMove(this.id)" disabled=true></td>
+				<td><button id=5 onClick="makeMove(this.id)" disabled=true></td>
+				<td><button id=6 onClick="makeMove(this.id)" disabled=true></td>
 			</tr>
 			<tr>
-				<td><button id=7 onClick="makeMove(this.id)"></td>
-				<td><button id=8 onClick="makeMove(this.id)"></td>
-				<td><button id=9 onClick="makeMove(this.id)"></td>
+				<td><button id=7 onClick="makeMove(this.id)" disabled=true></td>
+				<td><button id=8 onClick="makeMove(this.id)" disabled=true></td>
+				<td><button id=9 onClick="makeMove(this.id)" disabled=true></td>
 			</tr>
 		</tbody>
 	</table>
