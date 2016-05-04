@@ -1,4 +1,4 @@
-//
+		//
 		// Startup
 		//
 		var _isDown, _points, _r, _g, _rc;
